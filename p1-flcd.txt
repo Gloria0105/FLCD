@@ -1,0 +1,20 @@
+p1: Verify if a number is prime
+
+function boolean prime(integer a)
+[
+	for{integer d=2;;d<=a/2;;d++}
+[
+	if{ a mod d ==0} [return false;;]
+]
+return true;;
+]
+
+function void main()[
+	integer a;;
+	read a;;
+	if { prime(a) } [write “Numarul este prim”;;]
+	else [write “Numarul nu este prim”;;]
+]
+
+
+

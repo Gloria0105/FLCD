@@ -1,0 +1,19 @@
+p2: Compute the greater common divisor for 2 numbers
+
+function integer gcd(integer a, integer b)[
+	while{ a>b or b>a}[
+	if{ a>b} [a= a-b;;]
+	else if {b>a} [ b= b-a;;]
+]
+	return b;
+]
+
+function void main()[
+	integer a,b;;
+	read a;;
+read b;;
+	integer gcd;;
+gcd=gcd(a,b);;
+write gcd;;
+]
+

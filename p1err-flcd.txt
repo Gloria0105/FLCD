@@ -1,0 +1,11 @@
+
+p1err: 
+function integer main()[
+integer a;;
+	integer b;;
+	a=3;
+	b=33ar;;
+	a+=b;;
+	write a;;
+]
+
