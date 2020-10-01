@@ -1,0 +1,14 @@
+p2: Compute the greater common divisor for 2 numbers
+
+
+function integer main()[
+	integer a,b;;
+	read a;;
+	read b;;
+	while{ a>b or b>a}[
+		if{ a>b} [a= a-b;;]
+		else if {b>a} [ b= b-a;;]
+	]
+	return b;
+]
+
