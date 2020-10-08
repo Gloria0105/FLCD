@@ -1,0 +1,35 @@
+
++
+- 
+* 
+= 
+<=
+>=
+!=
+ /
+>
+<
+ mod
+
+{}
+ []
+ ;;
+ space
+ , 
+
+ vector
+ if
+ else
+ read
+ write
+ for
+ integer
+ string 
+start
+ finish
+
+Identifiers:
+		01
+Constants:
+		 02
+		

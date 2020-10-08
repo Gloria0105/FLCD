@@ -1,0 +1,29 @@
+
+ALPHABET:
+	a. lower case letters (a-z) of the english alphabet
+	b. decimal digits
+
+LEXIC:
+Operators: + - * = <=  /  mod >= !=  >  <
+
+Separators: {} [] ;; space , 
+
+Reserved words: vector if else read write for integer string start finish
+
+Identifiers:
+	- a sequence of letters, followed by a sequence of digits,
+ such that the first character is a letter 
+	identifier = letter|letter{letter}{digit}
+	letter = "a"|"b"|"c"|...|"z"
+	digit = "0"|"1"|...|"9"
+
+Constants:
+	-integer: 
+		noconst = "+"no|"-"no|no
+		no =digit{no}
+
+	-character:
+		character =  "'"letter"'" |"'"digit"'"
+	-string:
+		constchar ="string"
+		string = letter{string}|digit

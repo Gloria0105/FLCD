@@ -1,0 +1,34 @@
+Sintactical rules: 
+	
+	program ="start;;" decllist ";;" cmpdstmt "finish;;"
+	decllist = declaration | declaration ";;" decllist
+ 	declaration  = type identifier
+	type
+	type1 = "string" |"integer"
+	arraydecl = type1 "vector" "["nr"]" 
+	
+	cmpdstmt ="[" stmtlist "]"
+	stmtlist =stmt |stmt ";;" stmtlist
+	stmt = simplstmt | structstmt
+
+simplstmt = assignstmt | iostmt
+
+assignstmt = identifier"=" expression
+
+expression = expression "+" term | term  | expression "-" term
+
+term = term "*" factor | factor|term "/" factor |term "mod" factor 
+
+factor = "(" expression ")" | identifier
+
+iostmt = "read" identifier | "write"  identifier
+
+structstmt = cmpdstmt | ifstmt | forstmt
+
+ifstmt = "if" "{"condition"}" "["stmt"]" ["else" "["stmt"]"]
+
+forstmt = "for" "{"condition" ";;" "condition" ";;" "condition"}" "["stmt"]"
+
+condition = expression relation expression
+
+relation = "<" | "<=" | "=" | "!=" | ">=" | ">"
