@@ -23,9 +23,11 @@ factor = "(" expression ")" | identifier
 
 iostmt = "read" identifier | "write"  identifier
 
-structstmt = cmpdstmt | ifstmt | forstmt
+structstmt = cmpdstmt | ifstmt | forstmt | whilestmt
 
 ifstmt = "if" "{"condition"}" "["stmt"]" ["else" "["stmt"]"]
+
+whilestmt = "while" "{" condition "}" "[" stmt "]"
 
 forstmt = "for" "{"condition" ";;" "condition" ";;" "condition"}" "["stmt"]"
 

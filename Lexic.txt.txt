@@ -8,7 +8,7 @@ Operators: + - * = <=  /  mod >= !=  >  <
 
 Separators: {} [] ;; space , 
 
-Reserved words: vector if else read write for integer string start finish
+Reserved words: vector if else read write for integer string start finish or and
 
 Identifiers:
 	- a sequence of letters, followed by a sequence of digits,

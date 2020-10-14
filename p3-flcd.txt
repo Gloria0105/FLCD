@@ -1,9 +1,11 @@
 
 p3: Compute the sum of n numbers
 
-function integer main()[
+start;;
+
 	vector v[integer];;
 	integer n,sum=0;;
+	[
 	read n;;
 	for { integer i=0;;i<=n;i++}[
 		read v[i];;
@@ -15,4 +17,4 @@ function integer main()[
 
 	write sum;;
 ]
-
+finish;;

@@ -1,15 +1,15 @@
 p1: Verify if a number is prime
 
-function void main()[
-	integer a;;
-	read a;;
-	for{integer d=2;;d<=a/2;;d++}
+start;;
+	integer a,d;;
+	[read a;;
+	for{d=2;;d<=a/2;;d++}
 	[
-	if{ a mod d ==0} [return “Numarul nu este prim”;;]
+	if{ a mod d ==0} [write “Numarul nu este prim”;;]
 	]
-	return “Numarul este prim”;;
-	
-]
+	write “Numarul este prim”;;
+	]
+finish;;
 
 
 
