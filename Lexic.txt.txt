@@ -26,4 +26,4 @@ Constants:
 		character =  "'"letter"'" |"'"digit"'"
 	-string:
 		constchar ="string"
-		string = letter{string}|digit
+		string = {letter|digit}

@@ -31,6 +31,6 @@ whilestmt = "while" "{" condition "}" "[" stmt "]"
 
 forstmt = "for" "{"condition" ";;" "condition" ";;" "condition"}" "["stmt"]"
 
-condition = expression relation expression
+condition = expression relation expression| expresion
 
 relation = "<" | "<=" | "=" | "!=" | ">=" | ">"
