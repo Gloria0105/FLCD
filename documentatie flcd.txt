@@ -1,0 +1,13 @@
+Radu Ana-Maria
+https://github.com/Gloria0105/FLCD
+
+Clasa de simbol table contine un hash table care contine o lista simpla 
+inlantuita pentru fiecare pozitie. Clasa de simbol table contine:
+ -o functie de add: 
+	input: stringul cheie 
+	output: positia
+	 adauga cheia in hash table 
+ -functie de getPosition 
+	input: string cheie
+	output:positia pe care se afla
+	verifica daca se afla in hash table si daca nu o adauga 
