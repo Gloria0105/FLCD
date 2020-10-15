@@ -1,8 +1,10 @@
 p2: Compute the greater common divisor for 2 numbers
 
 
-function integer main()[
+start;;
+
 	integer a,b;;
+	[
 	read a;;
 	read b;;
 	while{ a>b or b>a}[
@@ -11,4 +13,4 @@ function integer main()[
 	]
 	return b;
 ]
-
+finish;;

@@ -18,6 +18,8 @@
  , 
 
  vector
+ or
+ and
  if
  else
  read
@@ -32,4 +34,3 @@ Identifiers:
 		01
 Constants:
 		 02
-		
