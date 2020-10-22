@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
 
 public class MyScanner {
     File file = new File("token.in.txt");
-    File p1 = new File("p1-flcd.txt")
+    File p1 = new File("p1-flcd.txt");
     public List<String> operators = new ArrayList();
     public List<String> separators = new ArrayList();
     public List<String> reservedWords = new ArrayList();
