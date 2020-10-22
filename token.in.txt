@@ -1,4 +1,3 @@
-
 +
 - 
 * 
@@ -10,25 +9,23 @@
 >
 <
  mod
-
 {}
  []
  ;;
- space
- , 
 
- vector
- or
- and
- if
- else
- read
- write
- for
- integer
- string 
+ ,
+vector
+or
+and
+if
+else
+read
+write
+for
+integer
+string
 start
- finish
+finish
 
 Identifiers:
 		01
