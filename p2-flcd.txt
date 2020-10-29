@@ -1,6 +1,3 @@
-p2: Compute the greater common divisor for 2 numbers
-
-
 start;;
 
 	integer a,b;;
@@ -11,6 +8,6 @@ start;;
 		if{ a>b} [a= a-b;;]
 		else if {b>a} [ b= b-a;;]
 	]
-	return b;
+	return b;;
 ]
 finish;;

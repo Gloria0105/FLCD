@@ -1,0 +1,2 @@
+
+ bucket[0] = Entry{key='0', value=1}

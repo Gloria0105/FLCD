@@ -1,36 +1,37 @@
-
 +
-- 
-* 
-= 
+-
+*
+=
 <=
 >=
 !=
- /
+/
 >
 <
- mod
+%
+{
+}
+[
+]
+;;
 
-{}
- []
- ;;
- space
- , 
+,
 
- vector
- or
- and
- if
- else
- read
- write
- for
- integer
- string 
+vector
+or
+and
+if
+else
+read
+write
+for
+integer
+string
 start
- finish
-
+while
+finish
+return
 Identifiers:
-		01
+		1
 Constants:
-		 02
+		 2
