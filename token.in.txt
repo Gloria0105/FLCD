@@ -1,19 +1,22 @@
 +
-- 
-* 
-= 
+-
+*
+=
 <=
 >=
 !=
- /
+/
 >
 <
- mod
-{}
- []
- ;;
+%
+{
+}
+[
+]
+;;
 
- ,
+,
+
 vector
 or
 and
@@ -25,9 +28,10 @@ for
 integer
 string
 start
+while
 finish
-
+return
 Identifiers:
-		01
+		1
 Constants:
-		 02
+		 2

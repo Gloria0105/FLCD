@@ -1,13 +1,11 @@
-p1: Verify if a number is prime
-
 start;;
 	integer a,d;;
 	[read a;;
 	for{d=2;;d<=a/2;;d++}
 	[
-	if{ a mod d ==0} [write “Numarul nu este prim”;;]
+	if{ a % d ==0} [write "numarul nu este prim";;]
 	]
-	write “Numarul este prim”;;
+	write "numarul este prim";;
 	]
 finish;;
 

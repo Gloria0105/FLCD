@@ -7,7 +7,11 @@ public class HashTable {
     private static int initialSize = 64;
     private Entry[] entries = new Entry[initialSize];
 
-    public void put(String key, String value) throws NoSuchAlgorithmException {
+    public Entry[] getEntries() {
+        return entries;
+    }
+
+    public void put(String key, Integer value) throws NoSuchAlgorithmException {
         int hash = getHash(key);
         if (hash < 0) hash = -hash;
         final Entry hashEntry = new Entry(key, value);
@@ -22,7 +26,7 @@ public class HashTable {
         }
     }
 
-    public String get(String key) throws NoSuchAlgorithmException {
+    public Integer get(String key) throws NoSuchAlgorithmException {
         int hash = getHash(key);
         if (hash < 0) hash = -hash;
         if (entries[hash] != null) {

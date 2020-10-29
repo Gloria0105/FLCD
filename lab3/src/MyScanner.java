@@ -1,10 +1,8 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MyScanner {
     File file = new File("token.in.txt");
@@ -13,80 +11,203 @@ public class MyScanner {
     public List<String> separators = new ArrayList();
     public List<String> reservedWords = new ArrayList();
     public PIF pif = new PIF();
-    public SimbolTable simbolTable = new SimbolTable();
+    public SymbolTable symbolTableIdentifiers = new SymbolTable();
+    public SymbolTable symbolTableConstants = new SymbolTable();
 
-    public String  tokenize(String line, List<String> tokens) {
-        StringTokenizer token = null;
-        while (!line.isEmpty()) {
-            token = new StringTokenizer(line);
+
+    public void readTokenFile(String filename) throws FileNotFoundException {
+        //read the token.in file and add each operator and separator to it s list
+        List<String> lines = new ArrayList<>();
+        BufferedReader reader;
+        try {
+            reader = new BufferedReader(new FileReader(filename));
+            String line = reader.readLine();
+            while (line != null) {
+                lines.add(line);
+                line = reader.readLine();
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        separators.add("\t");
+        for(int i=0;i<=lines.size();i++){
+            if (i <= 10) {
+                operators.add(lines.get(i));
+            }
+            if (i > 10 && i <= 18) {
+                separators.add(lines.get(i));
+            }
+            if (i > 18 && i <= 32) {
+                reservedWords.add(lines.get(i));
+            }
 
-        return token.toString();
+        }
     }
 
-    public void readFromFile(File file) throws FileNotFoundException {
-
-        int i = 0;
-        Scanner myReader = new Scanner(file);
-        while (myReader.hasNextLine()) {
-            i++;
-            if (i <= 11) {
-                operators.add(myReader.nextLine());
+    private List<String> readFile(String filename) {
+        //read every file and return a list with the lines
+        List<String> lines = new ArrayList<>();
+        BufferedReader reader;
+        try {
+            reader = new BufferedReader(new FileReader(filename));
+            String line = reader.readLine();
+            while (line != null) {
+                lines.add(line);
+                line = reader.readLine();
             }
-            if (i > 11 && i <= 16) {
-                separators.add(myReader.nextLine());
-            }
-            if (i > 16 && i <= 28) {
-                reservedWords.add(myReader.nextLine());
-            }
-
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+        return lines;
     }
+
+    public List<String> tokenize(String line) {
+        List<String> tokens = new ArrayList<>();
+        StringTokenizer st = new StringTokenizer(line, " ,()[]{};+-*/%=><!\t", true);
+        while (st.hasMoreTokens()) {
+            String token = st.nextToken();
+            if (!token.equals(" ")) {
+                if (token.equals("<") || token.equals(">")) {
+                    String nextToken = st.nextToken();
+                    if (nextToken.equals("=")) {
+                        tokens.add(token + nextToken);
+                    } else {
+                        tokens.add(token);
+                        tokens.add(nextToken);
+                    }
+                } else {
+                    if (token.equals(";")) {
+                        String nextToken = st.nextToken();
+                        if (token.equals(nextToken)) {
+                            tokens.add(token + nextToken);
+                        } else {
+                            tokens.add(token);
+                            tokens.add(nextToken);
+                        }
+                    } else {
+                        tokens.add(token);
+                    }
+
+                }
+            }
+        }
+
+
+        return tokens;
+    }
+
+    private void writeToFilePif(String filename, PIF pif) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true));
+
+        List<String> tokens = pif.getTokens();
+        List<Pair> entries = pif.getEntries();
+        writer.write(pif.toString());
+//        for (int i = 0; i < tokens.size(); i++) {
+//
+//            writer.append("token: ").append(tokens.get(i)).append(" code: ").append("(").append(String.valueOf(entries.get(i).getKey())).append(",").append(String.valueOf(entries.get(i).getValue())).append(")");
+//            writer.append("\n");
+//        }
+
+        writer.close();
+    }
+
+    private void writeToFileSt(String filename, SymbolTable symbolTable) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true));
+        writer.write(symbolTable.hashTable.toString());
+        writer.close();
+    }
+
 
     public boolean isIdentifier(String token) {
-        //TODO
-        return true;
+        //lower case letters (a-z) of the english alphabet
+        //a sequence of letters, followed by a sequence of digits,
+        // such that the first character is a letter
+        String pattern = "^[a-z]([a-z]|[0-9])*$";
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(token);
+        return m.find();
     }
 
     public boolean isConstant(String token) {
-        //TODO
-        return true;
+        //a sequence of digits starting with a nonzero-digit
+        // or a single signed or unsigned nonzero-digit
+        // or a zerodigit
+        String pattern = "^(0|[+\\-]?[1-9][0-9]*)$|^\".*\"$";
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(token);
+        return m.find();
     }
 
     public boolean isOperator(String token) {
-        for(String operator: operators){
+        for (String operator : operators) {
             if (token.equals(operator)) return true;
         }
         return false;
     }
 
     public boolean isSeparator(String token) {
-        for(String separator: separators){
+        for (String separator : separators) {
             if (token.equals(separator)) return true;
         }
         return false;
     }
+
     public boolean isReservedWord(String token) {
-        for(String reservedWord: reservedWords){
+        for (String reservedWord : reservedWords) {
             if (token.equals(reservedWord)) return true;
         }
         return false;
     }
-    public void verify(File p1) throws FileNotFoundException {
-        List <String> tokens=new ArrayList<>();
 
-        Scanner read = new Scanner(p1);
-        while (read.hasNextLine()) {
-            tokens.add(tokenize(read.nextLine(),separators));
-        }
-        for(String token: tokens){
-            if(isReservedWord(token)||isOperator(token)){
-                //generatePif(token);
+    public void generate() throws NoSuchAlgorithmException, FileNotFoundException {
+        //generate symbol table and pif
+
+        String fileIn = "p3-flcd.txt";
+        String pifFile = "pif.txt";
+        String symbolTableIdentifiersFile = "symbolTableIdentifiers.txt";
+        String symbolTableConstantsFile = "symbolTableConstants.txt";
+        this.readTokenFile("token.in.txt");
+
+        List<String> lines = readFile(fileIn);
+        for (String line : lines) {
+            List<String> tokens = tokenize(line);
+            for (String token : tokens) {
+                if (isOperator(token) || isSeparator(token) || isReservedWord(token)) {
+                    pif.add(token, new Pair(-1, -1));
+                } else {
+                    if (isIdentifier(token)) {
+                        // put 1 in pif
+                        Map.Entry<Integer, Integer> pos = new Pair(1, symbolTableIdentifiers.getPosition(token));
+                        pif.add(token, new Pair(pos.getKey(), pos.getValue()));
+                    } else {
+                        if (isConstant(token)) {
+                            // put 2 in pif
+                            Map.Entry<Integer, Integer> pos = new Pair(2, symbolTableConstants.getPosition(token));
+                            pif.add(token, new Pair(pos.getKey(), pos.getValue()));
+                        } else {
+                            throw new AssertionError("Unable to classify token: " + token);
+                        }
+                    }
+
+                }
             }
+
         }
-    }
-    public void generatePif(String token) throws NoSuchAlgorithmException {
-       //TODO
+
+        System.out.println("Classification done");
+        try {
+            writeToFilePif(pifFile, pif);
+            writeToFileSt(symbolTableIdentifiersFile, symbolTableIdentifiers);
+            writeToFileSt(symbolTableConstantsFile, symbolTableConstants);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
 }

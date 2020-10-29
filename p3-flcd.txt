@@ -1,16 +1,13 @@
-
-p3: Compute the sum of n numbers
-
 start;;
 
 	vector v[integer];;
 	integer n,sum=0;;
 	[
 	read n;;
-	for { integer i=0;;i<=n;i++}[
+	for { integer i=0;;i<=n;;i++}[
 		read v[i];;
 	]
-	for { integer i=0;;i<=n;i++}[
+	for { integer i=0;;i<=n;;i++}[
 		
 		sum=sum+v[i];;
 	]
