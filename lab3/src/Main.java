@@ -8,7 +8,11 @@ public class Main {
         System.out.println(simbolTable.getPosition("c"));
         System.out.println(simbolTable.getPosition("b"));
         MyScanner scanner = new MyScanner();
-        scanner.generate();
+        try {
+            scanner.generate();
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 }

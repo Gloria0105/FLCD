@@ -1,6 +1,4 @@
 
- bucket[0] = Entry{key='b', value=2}
- bucket[1] = Entry{key='a', value=1}
  bucket[0] = Entry{key='sum', value=3}
  bucket[1] = Entry{key='n', value=2}
  bucket[2] = Entry{key='i', value=4}

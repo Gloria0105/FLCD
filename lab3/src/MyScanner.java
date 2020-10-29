@@ -15,7 +15,7 @@ public class MyScanner {
     public SymbolTable symbolTableConstants = new SymbolTable();
 
 
-    public void readTokenFile(String filename) throws FileNotFoundException {
+    public void readTokenFile(String filename) {
         //read the token.in file and add each operator and separator to it s list
         List<String> lines = new ArrayList<>();
         BufferedReader reader;
@@ -31,7 +31,7 @@ public class MyScanner {
             e.printStackTrace();
         }
         separators.add("\t");
-        for(int i=0;i<=lines.size();i++){
+        for (int i = 0; i <= lines.size(); i++) {
             if (i <= 10) {
                 operators.add(lines.get(i));
             }
@@ -64,7 +64,7 @@ public class MyScanner {
         return lines;
     }
 
-    public List<String> tokenize(String line) {
+    public List<String> tokenize(String line, int lineCount) {
         List<String> tokens = new ArrayList<>();
         StringTokenizer st = new StringTokenizer(line, " ,()[]{};+-*/%=><!\t", true);
         while (st.hasMoreTokens()) {
@@ -80,12 +80,16 @@ public class MyScanner {
                     }
                 } else {
                     if (token.equals(";")) {
-                        String nextToken = st.nextToken();
-                        if (token.equals(nextToken)) {
-                            tokens.add(token + nextToken);
-                        } else {
-                            tokens.add(token);
-                            tokens.add(nextToken);
+                        try {
+                            String nextToken = st.nextToken();
+                            if (token.equals(nextToken)) {
+                                tokens.add(token + nextToken);
+                            } else {
+                                tokens.add(token);
+                                tokens.add(nextToken);
+                            }
+                        } catch (NoSuchElementException e) {
+                            System.out.println("Lexical error for token: " + token + " at line: " + lineCount);
                         }
                     } else {
                         tokens.add(token);
@@ -105,12 +109,6 @@ public class MyScanner {
         List<String> tokens = pif.getTokens();
         List<Pair> entries = pif.getEntries();
         writer.write(pif.toString());
-//        for (int i = 0; i < tokens.size(); i++) {
-//
-//            writer.append("token: ").append(tokens.get(i)).append(" code: ").append("(").append(String.valueOf(entries.get(i).getKey())).append(",").append(String.valueOf(entries.get(i).getValue())).append(")");
-//            writer.append("\n");
-//        }
-
         writer.close();
     }
 
@@ -122,20 +120,22 @@ public class MyScanner {
 
 
     public boolean isIdentifier(String token) {
+
+        String pattern = "^[a-z]([a-z]|[0-9])*$";
         //lower case letters (a-z) of the english alphabet
         //a sequence of letters, followed by a sequence of digits,
         // such that the first character is a letter
-        String pattern = "^[a-z]([a-z]|[0-9])*$";
         Pattern r = Pattern.compile(pattern);
         Matcher m = r.matcher(token);
         return m.find();
     }
 
     public boolean isConstant(String token) {
+
+        String pattern = "^(0|[+\\-]?[1-9][0-9]*)$|^\".*\"$";
         //a sequence of digits starting with a nonzero-digit
         // or a single signed or unsigned nonzero-digit
         // or a zerodigit
-        String pattern = "^(0|[+\\-]?[1-9][0-9]*)$|^\".*\"$";
         Pattern r = Pattern.compile(pattern);
         Matcher m = r.matcher(token);
         return m.find();
@@ -165,15 +165,17 @@ public class MyScanner {
     public void generate() throws NoSuchAlgorithmException, FileNotFoundException {
         //generate symbol table and pif
 
-        String fileIn = "p3-flcd.txt";
+        String fileIn = "p1err-flcd.txt";
         String pifFile = "pif.txt";
         String symbolTableIdentifiersFile = "symbolTableIdentifiers.txt";
         String symbolTableConstantsFile = "symbolTableConstants.txt";
         this.readTokenFile("token.in.txt");
 
         List<String> lines = readFile(fileIn);
+        int lineCount = 0;
         for (String line : lines) {
-            List<String> tokens = tokenize(line);
+            lineCount += 1;
+            List<String> tokens = tokenize(line, lineCount);
             for (String token : tokens) {
                 if (isOperator(token) || isSeparator(token) || isReservedWord(token)) {
                     pif.add(token, new Pair(-1, -1));
@@ -182,14 +184,12 @@ public class MyScanner {
                         // put 1 in pif
                         Map.Entry<Integer, Integer> pos = new Pair(1, symbolTableIdentifiers.getPosition(token));
                         pif.add(token, new Pair(pos.getKey(), pos.getValue()));
+                    } else if (isConstant(token)) {
+                        // put 2 in pif
+                        Map.Entry<Integer, Integer> pos = new Pair(2, symbolTableConstants.getPosition(token));
+                        pif.add(token, new Pair(pos.getKey(), pos.getValue()));
                     } else {
-                        if (isConstant(token)) {
-                            // put 2 in pif
-                            Map.Entry<Integer, Integer> pos = new Pair(2, symbolTableConstants.getPosition(token));
-                            pif.add(token, new Pair(pos.getKey(), pos.getValue()));
-                        } else {
-                            throw new AssertionError("Unable to classify token: " + token);
-                        }
+                        throw new RuntimeException("Unable to classify token: " + token + "at line:"+lineCount);
                     }
 
                 }
