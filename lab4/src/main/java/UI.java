@@ -1,5 +1,6 @@
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class UI {
@@ -8,6 +9,7 @@ public class UI {
     public UI(FAReader faReader) {
         this.faReader = faReader;
     }
+
     private static void showMenu() {
         System.out.println("1 - States");
         System.out.println("2 - Alphabet");
@@ -16,13 +18,14 @@ public class UI {
         System.out.println("5 - Initial state");
         System.out.println("6 - DFA check");
     }
+
     public void states() {
         List<String> states = faReader.getStates();
         StringBuilder sb = new StringBuilder("Q = {");
         int i = 0;
         for (String state : states) {
             i++;
-            if(states.size() == i){
+            if (states.size() == i) {
                 sb.append(state).append(" ");
                 break;
             }
@@ -31,13 +34,14 @@ public class UI {
         sb.append("}");
         System.out.println(sb);
     }
+
     public void alphabet() {
         List<String> alphabet = faReader.getAlphabet();
         StringBuilder sb = new StringBuilder("E = {");
-        int i=0;
+        int i = 0;
         for (String alph : alphabet) {
             i++;
-            if(alphabet.size() == i){
+            if (alphabet.size() == i) {
                 sb.append(alph).append(" ");
                 break;
             }
@@ -46,6 +50,7 @@ public class UI {
         sb.append("}");
         System.out.println(sb);
     }
+
     public void run() {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
@@ -74,7 +79,7 @@ public class UI {
                         initialState();
                         break;
                     case 6:
-                        //checkDFA();
+                        acceptSequence();
                         break;
                     case 0:
                         running = false;
@@ -89,13 +94,18 @@ public class UI {
     }
 
     private void transitions() {
-        List<Transition>transitions = faReader.getTransitions();
-        StringBuilder sb = new StringBuilder("S = {");
-        for( Transition transition: transitions){
-                sb.append(transition.toString());
+        Map<Pair, List<String>> transitions = faReader.getTransitions();
+        System.out.println("S = {");
+        for (Pair pair : transitions.keySet()) {
+            String sb = "(" +
+                    pair.getKey() +
+                    ", " +
+                    pair.getValue() +
+                    ") => " +
+                    transitions.get(pair);
+            System.out.println(sb);
         }
-        sb.append("}");
-        System.out.println(sb);
+        System.out.println("}");
     }
 
     private void initialState() {
@@ -109,7 +119,7 @@ public class UI {
         int i = 0;
         for (String state : states) {
             i++;
-            if(states.size() == i){
+            if (states.size() == i) {
                 sb.append(state).append(" ");
                 break;
             }
@@ -117,6 +127,15 @@ public class UI {
         }
         sb.append("}");
         System.out.println(sb);
+    }
+    public void acceptSequence() {
+        Scanner scanner = new Scanner(System.in);
+        String seq = scanner.nextLine();
+        if(faReader.accept(seq)) {
+            System.out.println("Sequence accepted");
+        } else {
+            System.out.println("Sequence is NOT accepted");
+        }
     }
 
 }

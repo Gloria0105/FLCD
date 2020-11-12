@@ -1,9 +1,12 @@
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FiniteAutomata {
     private List<String> Q;
-    private List<Transition> S;
+    private Map<Pair,List<String>> S;
     private List<String> F;
     private List<String> E;
     private String q0;
@@ -11,7 +14,7 @@ public class FiniteAutomata {
 
     public FiniteAutomata() {
         this.Q = new ArrayList<>();
-        this.S = new ArrayList<>();
+        this.S = new HashMap<>();
         this.F = new ArrayList<>();
         this.E = new ArrayList<>();
     }
@@ -20,8 +23,13 @@ public class FiniteAutomata {
         Q.add(state);
     }
 
-    public void addTransition(Transition transition) {
-        S.add(transition);
+    public void addTransition(Pair pair, String state) {
+        if (S.containsKey(pair)) {
+            S.get(pair).add(state);
+        } else {
+            S.put(pair, new ArrayList<String>());
+            S.get(pair).add(state);
+        }
     }
 
     public void addFinalState(String finalState) {
@@ -37,22 +45,27 @@ public class FiniteAutomata {
     }
 
     public List<String> getQ() {
+        //all states
         return Q;
     }
 
-    public List<Transition> getS() {
+    public Map<Pair, List<String>> getS() {
+        //transitions
         return S;
     }
 
     public List<String> getF() {
+        //final states
         return F;
     }
 
     public List<String> getE() {
+        // alphabet
         return E;
     }
 
     public String getQ0() {
+        //initial state
         return q0;
     }
 }
