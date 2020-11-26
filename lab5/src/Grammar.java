@@ -2,11 +2,12 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+
 public class Grammar {
     Set<String> nonTerminals;
     Set<String> terminals;
     String initialState;
-    Map<String, List<String>> productions;
+    Map<String, List<List<String>>> productions;
 
     public Grammar() {
         this.nonTerminals = new HashSet<>();
@@ -14,7 +15,7 @@ public class Grammar {
         this.initialState = "";
         this.productions = new HashMap<>();
 
-        readFromFile("src//main//resources//g1.txt");
+        readFromFile("src//main//resources//g2.txt");
     }
 
     public void readFromFile(String filename) {
@@ -28,15 +29,18 @@ public class Grammar {
 
             String line = reader.readLine();
             this.productions = new HashMap<>();
-            for(String nonTerminal : this.nonTerminals) {
+            for (String nonTerminal : this.nonTerminals) {
                 this.productions.put(nonTerminal, new ArrayList<>());
             }
 
             while (line != null) {
                 StringTokenizer stringTokenizer = new StringTokenizer(line, "->");
                 String symbol = stringTokenizer.nextToken().trim();
-                while(stringTokenizer.hasMoreTokens()) {
-                    this.productions.get(symbol).add(stringTokenizer.nextToken().trim());
+                while (stringTokenizer.hasMoreTokens()) {
+                    final String allElementsProduction = stringTokenizer.nextToken().trim();
+                    ArrayList productionElements = new ArrayList();
+                    productionElements.addAll(Arrays.asList(allElementsProduction.split(" ")));
+                    this.productions.get(symbol).add(productionElements);
                 }
                 line = reader.readLine();
             }
@@ -58,11 +62,11 @@ public class Grammar {
         return initialState;
     }
 
-    public Map<String, List<String>> getProductions() {
+    public Map<String, List<List<String>>> getProductions() {
         return productions;
     }
 
-    public List<String> getProductionsForNonTerminal(String nonTerminal) {
+    public List<List<String>> getProductionsForNonTerminal(String nonTerminal) {
         return productions.get(nonTerminal);
     }
 }
